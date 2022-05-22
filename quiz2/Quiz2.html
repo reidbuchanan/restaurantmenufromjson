@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Pizza Menu</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Groovy</h1>
+    <img src="pizza_peace.jpg" alt="pizza in peace logo" />
+    <form action="Quiz2.html" method="get" id="menu"></form>
+  </body>
+  <script>
+    //get json file from client
+    // fetch("menu.json")
+    //   .then((response) => response.json())
+    //   .then((data) => {
+
+    const data = {
+      menu: {
+        "slice of pizza": "2.00",
+        toppings: {
+          pepperoni: ".25",
+          meatballs: ".35",
+          mushrooms: ".40",
+          olives: ".20",
+        },
+        sides: {
+          "potato salad": "1.25",
+          hummus: "2.50",
+          "caesar salad": "3.50",
+          "garden salad": "2.25",
+        },
+        drinks: {
+          soda: {
+            small: "1.95",
+            medium: "2.20",
+            large: "2.50",
+          },
+          juice: "2.00",
+          water: "1.25",
+        },
+      },
+    };
+    //variable to iterate through starting after menu object
+    var menuObj = data.menu;
+    let content = `<h2> Menu </h2>`;
+
+    // for each key in the menu Object, iterate through to display data and populate form
+    for (key in menuObj) {
+      if (key == "slice of pizza") {
+        content += `<h3>${key} : $${menuObj[key]}</h3> <br> Number of slices: <input type ="number" name = "numbers" id ="number" min="0" max="100"><br>`;
+      }
+
+      //getting toppings section of menu
+      if (key == "toppings") {
+        content += `<h3> ${JSON.stringify(key)} </h3> <br>`;
+        for (key in menuObj.toppings) {
+          content += `<input type = "checkbox" name = "toppings" value = "${key}"> ${key}: $${menuObj.toppings[key]} <br>`;
+        }
+      }
+      //getting sides section of menu
+      if (key == "sides") {
+        content += `<h3> ${JSON.stringify(key)} </h3> <br>`;
+        for (key in menuObj.sides) {
+          content += `<input type = "checkbox" name = "sides" id = "sides" value = "${key}"> ${key}: $${menuObj.sides[key]} <br>`;
+        }
+      }
+
+      //getting drinks section of menu which has additional object of soda
+      //for soda object, creating a drop down to select a size
+      if (key == "drinks") {
+        content += `<h3> ${JSON.stringify(key)} </h3> <br>`;
+        for (key in menuObj.drinks) {
+          if (key != "soda") {
+            content += `<input type = "checkbox" name = "drinks" value = "${key}"> ${key}: $${menuObj.drinks[key]} <br>`;
+          }
+          if (key == "soda") {
+            content += `<input type = "checkbox" name = "drinks" value = "${key}"> ${key}: <br>
+                   `;
+
+            content += `<select>
+                    <option> Choose a size</option>
+                    ${Object.keys(menuObj.drinks.soda)
+                      .map(function (size) {
+                        return `<option name="size" >${size}: $${menuObj.drinks.soda[size]}</option>`;
+                      })
+                      .join("")}
+                </select> <br>`;
+          }
+        }
+      }
+
+      document.getElementById("menu").innerHTML = content;
+    }
+
+    console.log(document);
+
+    // creating two buttons for adding order and viewing order
+    const button = document.createElement("input");
+    button.type = "submit";
+    button.id = "submit";
+    button.value = "Add to order";
+    button.className = "btn";
+
+    var container = document.getElementById("menu");
+    container.appendChild(button);
+
+    const button2 = document.createElement("input");
+    button2.type = "submit";
+    button2.id = "order";
+    button2.value = "View order";
+    button2.className = "btn";
+    container.appendChild(button2);
+
+    //function to add user selection to local storage
+    const addToStorage = () => {
+      event.preventDefault();
+      for (let i = 0; i <= document.forms[0].length; i++) {
+        if (document.forms[0].elements[i].type == "number") {
+          localStorage.setItem(
+            "number of slices",
+            document.forms[0].elements[i].value
+          );
+        }
+
+        if (document.forms[0].elements[i].type == "checkbox") {
+          localStorage.setItem(
+            document.forms[0].elements[i].value,
+            document.forms[0].elements[i].checked
+          );
+        }
+
+        if (document.forms[0].elements[i].name == "size") {
+          localStorage.setItem(
+            "soda size",
+            document.forms[0].elements[i].value
+          );
+        }
+      }
+    };
+
+    //function to display order back to user
+    const showOrder = () => {
+      event.preventDefault();
+      const order2 = localStorage.getItem("number of slices");
+
+      let toppings = [];
+      let sides = [];
+      let drinks = [];
+      for (let i = 0; i <= localStorage.length; i++) {
+        if (
+          localStorage.getItem(document.forms[0].elements[i].value) === "true"
+        ) {
+          if (document.forms[0].elements[i].name == "toppings") {
+            toppings.push(document.forms[0].elements[i].value);
+          }
+          if (document.forms[0].elements[i].name == "sides") {
+            sides.push(document.forms[0].elements[i].value);
+          }
+          if (document.forms[0].elements[i].name == "drinks") {
+            if (document.forms[0].elements[i].name == "size") {
+              drinks.push(localStorage.getItem("soda size"));
+            } else {
+              drinks.push(document.forms[0].elements[i].value);
+            }
+          }
+        }
+      }
+      alert(
+        `Your order:\n Number of slices: ${order2} \n Toppings: ${toppings.join(
+          ", "
+        )} \n Sides: ${sides.join(", ")} \n Drinks: ${drinks.join(", ")}`
+      );
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelector("#submit").addEventListener("click", addToStorage);
+      document.querySelector("#order").addEventListener("click", showOrder);
+    });
+    // });
+  </script>
+</html>

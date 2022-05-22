@@ -1,0 +1,123 @@
+@font-face {
+  font-family: "bellybeans";
+  src: URL("bellybeans.ttf") format("truetype");
+}
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+body {
+  display: grid;
+  font-family: Verdana, Arial, serif;
+  font-size: 100%;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  margin: 1em;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+main {
+  font-size: 1em;
+  line-height: 1.4em;
+  color: #555;
+  margin: 2.5%;
+}
+img {
+  width: 270px;
+  height: 270px;
+
+  margin-bottom: 15%;
+  margin-left: 15%;
+}
+
+form {
+  float: left;
+  width: 100%;
+  justify-content: center;
+}
+h1 {
+  justify-content: center;
+  margin-left: 18%;
+  margin-bottom: 0%;
+  font-size: 5em;
+  color: #891824;
+}
+
+h1,
+h2,
+h3 {
+  font-family: bellybeans;
+}
+
+h2 {
+  font-weight: thin;
+  font-size: 1.5em;
+}
+
+h3 {
+  font-weight: thin;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #891824;
+  border-bottom: 1px solid;
+  margin-top: 1.5em;
+}
+input {
+  margin: auto;
+  padding: 2em;
+}
+
+input[type="number"] {
+  border-color: #891824;
+
+  font-family: Verdana;
+  font-weight: bold;
+  text-transform: uppercase;
+  justify-content: center;
+  margin-left: 1.5em;
+  text-align: center;
+  width: 38%;
+  height: 0%;
+  font-size: 1em;
+}
+
+input[type="checkbox"] {
+  margin: 1.5em;
+}
+
+input[type="submit"] {
+  background-color: #891824;
+  color: white;
+  font-weight: bold;
+  font-family: bellybeans;
+  font-size: large;
+  text-transform: uppercase;
+  margin: 2em;
+  padding: 2em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+option[name="size"],
+select {
+  font-family: Verdana;
+  font-weight: bold;
+  text-transform: uppercase;
+  float: left;
+  margin-left: 4em;
+}
+
+input[type="submit"]:hover {
+  background-color: #fff;
+  color: black;
+  margin-top: 2em;
+}
